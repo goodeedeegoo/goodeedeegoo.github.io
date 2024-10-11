@@ -1,0 +1,32 @@
+    <script>
+        function getIPAddress() {
+            return fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    return data.ip;  // ดึงค่า IP ออกมา
+                })
+                .catch(error => {
+                    console.error('Error fetching IP:', error);
+                    return null;
+                });
+        }
+        function redirectToNewURL(ipAddress) {
+            const currentURL = window.location.href;
+            const urlParts = currentURL.split('?');
+            const queryParams = urlParts[1];
+            if (queryParams == null) {
+                //window.location.replace('https://pricede.com/');
+            } else {
+                window.location.replace('https://pricede.com/re.php?pid=' + queryParams);
+            }
+        }
+        window.onload = function () {
+            getIPAddress().then(ipAddress => {
+                if (ipAddress) {
+                    redirectToNewURL(ipAddress);
+                } else {
+                    document.write("Failed to retrieve IP address.");
+                }
+            });
+        }
+    </script>
